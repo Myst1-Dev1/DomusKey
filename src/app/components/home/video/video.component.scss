@@ -1,0 +1,37 @@
+.video-section {
+    position: relative;
+
+    .video-cover {
+        width: 100%;
+        height: 500px;
+        background-color: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        color: #fff;
+        display: flex;
+        justify-content: end;
+        align-items: end;
+
+        .box {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h5 {
+                font-size:20px
+            }
+
+            p {
+                max-width: 350px;
+                font-weight: 300;
+            }
+        }
+    }
+
+    video {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+    }
+}

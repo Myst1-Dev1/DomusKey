@@ -1,0 +1,29 @@
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.intro {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+        font-size: 40px;
+    }
+
+    .box {
+        flex-direction: column;
+        display: flex;
+        height: 144px;
+        justify-content: space-between;
+
+        p {
+            font-weight: lighter;
+            max-width: 400px;
+        }
+    }
+}
