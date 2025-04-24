@@ -1,92 +1,50 @@
-<section class="immobiles-section container">
+<section id="immobiles" class="immobiles-section container">
     <h2>Navegue por nossos imóveis</h2>
 
-    <div class="immobiles-container">
-        <div class="immobiles-box">
-            <img ngSrc="/images/property.webp" width="350" height="200" alt="foto do imóvel">
-            <div class="text-box">
-                <h6>Tasman Aris Estate</h6>
-                <div class="location-box">
-                    <fa-icon class="icon" [icon]="faMapMarker"></fa-icon>
-                    <p>São Gonçalo - RJ</p>
+    <swiper-container
+        #swiperRef
+        class="immobiles-container"
+        space-between="16"
+        slides-per-view="3"
+        breakpoints='{"200": {"slidesPerView": 1}, "500": {"slidesPerView": 2}, "991": {"slidesPerView": 3}, "1500": {"slidesPerView": 4}}'
+    >
+        @for(item of immobiles; track item) {
+            <swiper-slide>
+                <div class="immobiles-box">
+                    <img ngSrc={{item.img}} width="350" height="200" alt="foto do imóvel">
+                    <div class="text-box">
+                        <h6>{{item.title}}</h6>
+                        <div class="location-box">
+                            <fa-icon class="icon" [icon]="faMapMarker"></fa-icon>
+                            <p>{{item.location}}</p>
+                        </div>
+                    
+                    </div>
+                    <div class="icons-box">
+                        <div class="box">
+                            <fa-icon class="icon" [icon]="faBed"></fa-icon>
+                            <h6>{{item.bedNumbers}}</h6>
+                        </div>
+                        <div class="box">
+                            <fa-icon class="icon" [icon]="faBath"></fa-icon>
+                            <h6>{{item.bathNumbers}}</h6>
+                        </div>
+                        <div class="box">
+                            <fa-icon class="icon" [icon]="faVectorSquare"></fa-icon>
+                            <h6>{{item.propertySize}} m²</h6>
+                        </div>
+                    </div>
+                    <a href="">Detalhes</a>
                 </div>
-               
-            </div>
-            <div class="icons-box">
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBed"></fa-icon>
-                    <h6>4</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBath"></fa-icon>
-                    <h6>2</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faVectorSquare"></fa-icon>
-                    <h6>410 m²</h6>
-                </div>
-            </div>
-            <a href="">Detalhes</a>
-        </div>
-        <div class="immobiles-box">
-            <img ngSrc="/images/property.webp" width="350" height="200" alt="foto do imóvel">
-            <div class="text-box">
-                <h6>Tasman Aris Estate</h6>
-                <div class="location-box">
-                    <fa-icon class="icon" [icon]="faMapMarker"></fa-icon>
-                    <p>São Gonçalo - RJ</p>
-                </div>
-               
-            </div>
-            <div class="icons-box">
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBed"></fa-icon>
-                    <h6>4</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBath"></fa-icon>
-                    <h6>2</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faVectorSquare"></fa-icon>
-                    <h6>410 m²</h6>
-                </div>
-            </div>
-            <a href="">Detalhes</a>
-        </div>
-        <div class="immobiles-box">
-            <img ngSrc="/images/property.webp" width="350" height="200" alt="foto do imóvel">
-            <div class="text-box">
-                <h6>Tasman Aris Estate</h6>
-                <div class="location-box">
-                    <fa-icon class="icon" [icon]="faMapMarker"></fa-icon>
-                    <p>São Gonçalo - RJ</p>
-                </div>
-               
-            </div>
-            <div class="icons-box">
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBed"></fa-icon>
-                    <h6>4</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faBath"></fa-icon>
-                    <h6>2</h6>
-                </div>
-                <div class="box">
-                    <fa-icon class="icon" [icon]="faVectorSquare"></fa-icon>
-                    <h6>410 m²</h6>
-                </div>
-            </div>
-            <a href="">Detalhes</a>
-        </div>
-    </div>
+            </swiper-slide>
+        }
+    </swiper-container>
 
     <div class="arrows-container">
-        <div class="box">
+        <div #prevEl class="box button-prev">
             <fa-icon [icon]="faArrowLeft" />
         </div>
-        <div class="box">
+        <div #nextEl class="box button-next">
             <fa-icon [icon]="faArrowRight" />
         </div>
     </div>

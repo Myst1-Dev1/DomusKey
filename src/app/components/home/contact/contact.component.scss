@@ -92,6 +92,14 @@
     }
 }
 
+@media(min-width:1500px) {
+    .contact {
+        .bg, .form-container {
+            height: 70vh;
+        }
+    }
+}
+
 @media(max-width:991px) {
     .contact {
 
