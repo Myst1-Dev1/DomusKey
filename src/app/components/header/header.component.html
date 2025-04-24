@@ -1,14 +1,17 @@
 <header class="container">
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Propriedades</a>
-        <a href="#">Faq</a>
-        <a href="#">Sobre</a>
+    <nav [class.menu-open]="isMenuOpen">
+        <a href="#" (click)="toggleMenu()">Home</a>
+        <a href="#" (click)="toggleMenu()">Propriedades</a>
+        <a href="#" (click)="toggleMenu()">Faq</a>
+        <a href="#" (click)="toggleMenu()">Sobre</a>
+        <a href="#" (click)="toggleMenu()" id="contact-responsive">Contato</a>
+        <button id="nav-btn">Login</button>
     </nav>
     <h1>Domus Key</h1>
     <div class="box">
         <a href="#">Contato</a>
         <button>Login</button>
     </div>
+    <fa-icon [icon]="faBars" (click)="toggleMenu()" class="icon" />
 </header>
 <hr class="header-line">

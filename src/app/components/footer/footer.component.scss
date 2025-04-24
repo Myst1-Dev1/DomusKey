@@ -2,6 +2,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     margin-top: 80px;
 
     .box {
@@ -58,6 +59,23 @@ footer {
             &:hover {
                 color: #ec3731;
             }
+        }
+    }
+}
+
+@media(max-width:991px) {
+    footer {
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        gap: 30px;
+
+        h3 {
+            text-align: center;
+        }
+
+        .footer-icons {
+            justify-content: center;
         }
     }
 }

@@ -24,7 +24,7 @@
 
             p {
                 max-width: 350px;
-                font-weight: 300;
+                font-weight: 400;
             }
         }
     }
@@ -33,5 +33,16 @@
         width: 100%;
         height: 500px;
         object-fit: cover;
+    }
+}
+
+@media(max-width:991px) {
+    .video-section {
+        .video-cover {
+            .box {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
     }
 }

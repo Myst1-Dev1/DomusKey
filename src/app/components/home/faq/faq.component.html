@@ -4,26 +4,12 @@
         <p>Se você procura um apartamento moderno na cidade ou uma casa tranquila nos subúrbios, nossa companhia oferece boas opções para todos.</p>
     </div>
     <div class="questions">
-        <div class="box">
-            <div class="title-box">
-                <h6>Como inicio o processo de compra de um imóvel com a DomusKey</h6>
-                <fa-icon [icon]="faChevronDown" class="icon" />
-            </div>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, book.</p>
+        <div class="box" *ngFor="let question of questions; index as i">
+          <div class="title-box">
+            <h6>{{ question.title }}</h6>
+            <fa-icon (click)="toggleAccordion(i)" [icon]="faChevronDown" class="icon" [ngStyle]="{ transform: activeIndex === i ? 'rotate(180deg)' : 'rotate(0)' }" />
+          </div>
+          <p [ngClass]="{ 'acordion-open': activeIndex === i }">{{ question.text }}</p>
         </div>
-        <div class="box">
-            <div class="title-box">
-                <h6>Que tipos de propriedade a DomusKey oferece?</h6>
-                <fa-icon [icon]="faChevronDown" class="icon" />
-            </div>
-            <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, book.</p> -->
-        </div>
-        <div class="box">
-            <div class="title-box">
-                <h6>A DomusKey pode ajudar com o financiamento imobiliário ou hipotecas?</h6>
-                <fa-icon [icon]="faChevronDown" class="icon" />
-            </div>
-            <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, book.</p> -->
-        </div>
-    </div>
+      </div>      
 </section>

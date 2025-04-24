@@ -24,7 +24,6 @@
             color: #fff;
             font-weight: 400;
             margin-top: 40px;
-            margin-bottom: 40px;
         }
 
         form {
@@ -94,7 +93,20 @@
 }
 
 @media(max-width:991px) {
-    .input-container {
-        flex-wrap: wrap;
+    .contact {
+
+        .bg {
+            display: none;
+        }
+    
+        .form-container {
+            width: 100%;
+
+            form {
+                .input-container {
+                    flex-wrap: wrap;
+                }
+            }
+        }
     }
 }
