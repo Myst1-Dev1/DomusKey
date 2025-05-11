@@ -23,6 +23,11 @@ a {
     color: inherit;
 }
 
+.scrollDontShow::-webkit-scrollbar {
+    display: none;
+    cursor:none;
+}
+
 @media(min-width:1500px) {
     .container {
         max-width: 1560px;

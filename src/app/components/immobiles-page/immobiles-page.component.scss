@@ -1,0 +1,187 @@
+.immobiles {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 100px;
+
+    .filter {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 30px;
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+
+            label {
+                font-weight: 500;
+            }
+
+            input, select {
+                padding: 10px;
+                border: 1px solid #accaca;
+                border-radius: 8px;
+                height: 50px;
+                outline: none;
+                max-width: 150px;
+                width: 100%;
+            }
+
+            input[type='number']::-webkit-inner-spin-button {
+                display: none;
+            }
+
+            select {
+                color:#808080
+            }
+        }
+        
+
+        button {
+            width: 100%;
+            height: 50px;
+            border: none;
+            font-size: 17px;
+            font-weight: 500;
+            color: #fff;
+            background-color: #000;
+            border-radius: 8px;
+            max-width: 200px;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: #282828;
+            }
+        }
+    }
+
+    .immobiles-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        overflow-y: scroll;
+        height: 500px;
+
+        .immobile-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            
+            img {
+                border-radius: 10px;
+            }
+
+            .info-box {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                max-width: 400px;
+                width: 100%;
+
+                .location-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    h3 {
+                        font-weight: 400;
+                        font-size: 17px;
+                    }
+
+                    .icon {
+                        color:#939595
+                    }
+                }
+
+                p {
+                    font-weight: 200;
+                    font-size: 14px;
+                }
+
+                .price {
+                    background: #303030;
+                    color: #fff;
+                    padding: 10px;
+                    border-radius: 6px;
+                    width: fit-content;
+                }
+
+                .immobile-services {
+                    display: flex;
+                    gap: 20px;
+
+                    .box {
+                        background-color: #ededed;
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                        padding: 3px;
+                        transition: 0.3s;
+
+                        .icon {
+                            color: #615e5e;
+                        }
+
+                        h6 {
+                            font-weight: 500;
+                        }
+
+                        &:hover {
+                            background-color: #303030;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // .map {
+    //     background-color: #c3c5c7;
+    //     max-width: 400px;
+    //     width: 100%;
+    //     min-height: 100vh;
+    // }
+}
+
+@media(max-width:991px) {
+    .immobiles {
+        .filter {
+            flex-direction: column;
+            gap: 20px;
+    
+            .input-box {
+                input, select {
+                    max-width: 100%;
+                }
+            }
+            button {
+                margin: auto;
+            }
+        }
+        .immobiles-container {
+            height: 100%;
+            .immobile-box {
+                img {
+                    width: 100%;
+                }
+                .info-box {
+                    gap: 16px;
+                }
+            }
+        }
+
+        // .map {
+        //     height: 400px;
+        // }
+    }
+}

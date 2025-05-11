@@ -1,0 +1,67 @@
+<main>
+    <section class="immobiles container">
+        <div>
+            <div class="filter">
+                <div class="input-box">
+                    <label for="search-for">Procurando por</label>
+                    <input type="text" name="search-for" id="search-for" placeholder="O que procurar">
+                </div>
+                <div class="input-box">
+                    <label for="search-for">Tipo</label>
+                    <select name="type" id="type">
+                        <option value="">Tipo de propriedade</option>
+                        <option value="Residencial">Residencial</option>
+                        <option value="Condominio">Condominio</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <label for="price">Procurando por</label>
+                    <input type="number" name="price" id="price" placeholder="Preço">
+                </div>
+                <div class="input-box">
+                    <label for="location">Localização</label>
+                    <select name="location" id="location">
+                        <option value="">Todas as cidades</option>
+                        <option value="São Gonçalo">São Gonçalo</option>
+                        <option value="Niteroi">Niteroi</option>
+                    </select>
+                </div>
+                <button>
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    Pesquisar
+                </button>
+            </div>
+            <div class="immobiles-container scrollDontShow">
+                @for(item of immobiles; track item) {
+                <div class="immobile-box">
+                    <img ngSrc="/images/property.webp" width="300" height="200" alt="foto do imóvel">
+                    <div class="info-box">
+                        <h2>{{item.title}}</h2>
+                        <div class="location-box">
+                            <fa-icon class="icon" [icon]="faMapMarker" />
+                            <h3>{{item.location}}</h3>
+                        </div>
+                        <p>{{item.description}}</p>
+                        <span class="price">R$:1500,00</span>
+                        <div class="immobile-services">
+                            <div class="box">
+                                <fa-icon class="icon" [icon]="faBed" />
+                                <h6>{{item.bedNumbers}} quartos</h6>
+                            </div>
+                            <div class="box">
+                                <fa-icon class="icon" [icon]="faBath" />
+                                <h6>{{item.bathNumbers}} banheiros</h6>
+                            </div>
+                            <div class="box">
+                                <fa-icon class="icon" [icon]="faVectorSquare" />
+                                <h6>Area total {{item.propertySize}}m²</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+        <app-map style="max-width: 400px; width: 100%;" />
+    </section>
+</main>
