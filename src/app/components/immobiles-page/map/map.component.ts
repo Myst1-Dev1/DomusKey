@@ -1,21 +1,16 @@
-import {
-  Component,
-  AfterViewInit,
-  Inject,
-  PLATFORM_ID,
-  OnDestroy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, OnDestroy, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
-let L: any;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy {
+export class MapComponent implements AfterViewInit, OnDestroy, OnChanges {
+  @Input() latitude: number = -23.55052;  // valores padrão
+  @Input() longitude: number = -46.63331;
+  @Input() title: string = 'RJ'
+
   private map: any;
   private L: any;
 
@@ -29,13 +24,30 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const leaflet = await import('leaflet');
       this.L = leaflet;
 
-      // Espera o DOM estabilizar antes de iniciar o mapa
       setTimeout(() => {
         this.initMap();
-        this.cdr.detectChanges(); // garante atualização do Angular
+        this.cdr.detectChanges();
       }, 0);
     }
   }
+
+  ngOnChanges(changes: SimpleChanges | any) {
+  if (this.map && (changes.latitude || changes.longitude || changes.title)) {
+    this.map.setView([this.latitude, this.longitude], 13);
+
+    // Remove marcadores antigos para evitar acumulo
+    this.map.eachLayer((layer: any) => {
+      if (layer instanceof this.L.Marker) {
+        this.map.removeLayer(layer);
+      }
+    });
+
+    this.L.marker([this.latitude, this.longitude]).addTo(this.map)
+      .bindPopup(`${this.title}`);  // popup só aparece ao clicar no marker
+
+    setTimeout(() => this.map.invalidateSize(), 300);
+  }
+}
 
   private initMap(): void {
     if (this.map) {
@@ -48,17 +60,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.map = this.L.map(mapElement).setView([-23.55052, -46.63331], 13);
+    this.map = this.L.map(mapElement).setView([this.latitude, this.longitude], 13);
 
     this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    this.L.marker([-23.55052, -46.63331]).addTo(this.map)
-      .bindPopup('São Paulo')
-      .openPopup();
+    this.L.marker([this.latitude, this.longitude]).addTo(this.map)
+      .bindPopup(`<h2 style="font-weight:bold;font-size:14px;">${this.title}</h2>`)
+      // .openPopup();
 
-    // Garante que redimensione corretamente
     setTimeout(() => {
       this.map.invalidateSize();
     }, 300);

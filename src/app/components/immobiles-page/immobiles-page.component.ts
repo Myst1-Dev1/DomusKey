@@ -4,6 +4,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBath, faBed, faMapMarkerAlt, faSearch, faVectorSquare } from '@fortawesome/free-solid-svg-icons';
 import { MapComponent } from "./map/map.component";
 
+import { Apollo } from 'apollo-angular';
+import { GET_IMMOBILES } from '../../../graphql/immobiles-query';
+
 @Component({
   selector: 'app-immobiles-page',
   imports: [NgOptimizedImage, FontAwesomeModule, MapComponent],
@@ -18,56 +21,19 @@ export class ImmobilesPageComponent {
    faVectorSquare = faVectorSquare;
    faSearch = faSearch;
 
-   immobiles = [
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      description:"Lorem ipsum dolor sit amet consectetur adipisicing and about this immobile of Domus Key.",
-      price:'1500',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      description:"Lorem ipsum dolor sit amet consectetur adipisicing and about this immobile of Domus Key.",
-      price:'1500',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      description:"Lorem ipsum dolor sit amet consectetur adipisicing and about this immobile of Domus Key.",
-      price:'1500',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      description:"Lorem ipsum dolor sit amet consectetur adipisicing and about this immobile of Domus Key.",
-      price:'1500',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      description:"Lorem ipsum dolor sit amet consectetur adipisicing and about this immobile of Domus Key.",
-      price:'1500',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    }
-   ]
+  immobiles: any[] = [];
+  loading = true;
+  error: any;
+
+  constructor(private apollo: Apollo) {}
+
+  ngOnInit(): void {
+    this.apollo.watchQuery<any>({
+      query: GET_IMMOBILES,
+    }).valueChanges.subscribe(({ data, loading, error }) => {
+      this.loading = loading;
+      this.immobiles = data?.immobiles ?? [];
+      this.error = error;
+    });
+  }
 }

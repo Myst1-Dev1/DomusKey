@@ -10,8 +10,12 @@ import {
   faArrowRight 
 } from '@fortawesome/free-solid-svg-icons';
 
+import { Apollo } from 'apollo-angular';
+import { GET_IMMOBILES } from '../../../../graphql/immobiles-query';
+
 @Component({
   selector: 'app-immobiles',
+  standalone:true,
   imports: [NgOptimizedImage, FontAwesomeModule],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './immobiles.component.html',
@@ -29,40 +33,21 @@ export class ImmobilesComponent implements AfterViewInit {
   faArrowLeft = faArrowLeft;
   faArrowRight = faArrowRight;
 
-  immobiles = [
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-    {
-      img: '/images/property.webp',
-      title:'Tasman Aris Estate',
-      location: 'São Gonçalo - RJ',
-      bedNumbers:'4',
-      bathNumbers: '3',
-      propertySize: '410'
-    },
-  ]
+  immobiles: any[] = [];
+  loading = true;
+  error: any;
+
+  constructor(private apollo: Apollo) {}
+
+  ngOnInit(): void {
+    this.apollo.watchQuery<any>({
+      query: GET_IMMOBILES,
+    }).valueChanges.subscribe(({ data, loading, error }) => {
+      this.loading = loading;
+      this.immobiles = data?.immobiles ?? [];
+      this.error = error;
+    });
+  }
 
   ngAfterViewInit(): void {
     const swiperEl = this.swiperRef.nativeElement;

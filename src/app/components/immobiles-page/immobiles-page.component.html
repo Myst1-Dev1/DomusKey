@@ -34,15 +34,15 @@
             </div>
             <div class="immobiles-container scrollDontShow">
                 @for(item of immobiles; track item) {
-                <div class="immobile-box">
-                    <img ngSrc="/images/property.webp" width="300" height="200" alt="foto do imóvel">
+                <a href="/imoveis/{{item.id}}" class="immobile-box">
+                    <img ngSrc={{item.img}} width="300" height="200" alt="foto do imóvel">
                     <div class="info-box">
                         <h2>{{item.title}}</h2>
                         <div class="location-box">
                             <fa-icon class="icon" [icon]="faMapMarker" />
                             <h3>{{item.location}}</h3>
                         </div>
-                        <p>{{item.description}}</p>
+                        <p>{{ item.description?.slice(0, 150) }}{{ item.description?.length > 150 ? '...' : '' }}</p>
                         <span class="price">R$:1500,00</span>
                         <div class="immobile-services">
                             <div class="box">
@@ -59,10 +59,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 }
             </div>
         </div>
-        <app-map style="max-width: 400px; width: 100%;" />
+        @for(item of immobiles; track item) {
+            <app-map [latitude]="item.latitude" [longitude]="item.longitude" [title]="item.title" style="max-width: 400px; width: 100%;"></app-map>
+        }
     </section>
 </main>
