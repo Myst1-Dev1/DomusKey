@@ -2,29 +2,36 @@
     <div class="immobile-container container">
         <div class="immobile-box">
             <div class="img-container">
-                <img ngSrc="/images/property.webp" width="400" height="300" alt="foto do imóvel">
+                <img (click)="open(0)" [ngSrc]="immobile?.img || '/images/property.webp'" width="400" height="300" alt="foto do imóvel">
                 <div class="other-img-box scrollDontShow">
-                    <img ngSrc="/images/property.webp" width="200" height="100" alt="foto do imóvel">
-                    <img ngSrc="/images/property.webp" width="200" height="100" alt="foto do imóvel">
-                    <img ngSrc="/images/property.webp" width="200" height="100" alt="foto do imóvel">
+                    <img
+                        *ngFor="let item of immobile?.perspectiveImgs; let i = index"
+                        (click)="open(i + 1)"
+                        [ngSrc]="item || '/images/property.webp'"
+                        width="200"
+                        height="100"
+                        alt="foto do imóvel"
+                    />
                 </div>
+                <button *ngIf="lightboxIsOpen" class="lightbox-close-btn" (click)="close()">
+                    ✕
+                </button>
             </div>
             <div class="immobile-info">
                 <div class="box">
-                    <h2>Tasman Aris State</h2>
+                    <h2>{{immobile?.title || 'Tasman Aris State'}}</h2>
                     <div class="location">
                         <fa-icon class="icon" [icon]="faMapMarker" />
-                        <h5>São Gonçalo, RJ</h5>
+                        <h5>{{immobile?.location || 'São Gonçalo, RJ'}}</h5>
                     </div>
-                    <span class="price">R$1500</span>
+                    <span class="price">R${{immobile?.price || 1500}}</span>
                 </div>
                 <div class="broker-box">
                     <img ngSrc="/images/user1.webp" width="60" height="60" alt="foto do corretor do imóvel">
                     <h6>John Doe</h6>
                 </div>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat ipsum ratione quibusdam asperiores hic! Similique iure rerum itaque illum expedita quibusdam consequuntur. Eum dignissimos, dolor eius odio est saepe recusandae!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat ipsum ratione quibusdam asperiores hic! Similique iure rerum itaque illum expedita quibusdam consequuntur. Eum dignissimos, dolor eius odio est saepe recusandae!</p>
+            <p>{{immobile?.description || 'Loren ipsun is simply dummy about the loren industry Domus key.'}}</p>
         </div>
         <div class="immobile-details">
             <div class="general">
@@ -58,15 +65,15 @@
                 <div class="room-box">
                     <div class="box">
                         <fa-icon class="icon" [icon]="faExpand" />
-                        <h6>80sqm (861sqft)</h6>
+                        <h6>{{immobile?.propertySize || 89}} m²</h6>
                     </div>
                     <div class="box">
                         <fa-icon class="icon" [icon]="faBed" />
-                        <h6>2 Camas</h6>
+                        <h6>{{immobile?.bedNumbers || 2}} Camas</h6>
                     </div>
                     <div class="box">
                         <fa-icon class="icon" [icon]="faBath" />
-                        <h6>3 Banheiros</h6>
+                        <h6>{{immobile?.bathNumbers || 3}} Banheiros</h6>
                     </div>
                 </div>
             </div>
