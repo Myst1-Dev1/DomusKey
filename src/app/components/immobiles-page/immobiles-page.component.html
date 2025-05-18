@@ -5,11 +5,11 @@
             <div class="filter">
                 <div class="input-box">
                     <label for="search-for">Procurando por</label>
-                    <input type="text" name="search-for" id="search-for" placeholder="O que procurar">
+                    <input [(ngModel)]="searchFor" type="text" name="search-for" id="search-for" placeholder="O que procurar">
                 </div>
                 <div class="input-box">
                     <label for="search-for">Tipo</label>
-                    <select name="type" id="type">
+                    <select name="type" [(ngModel)]="type" id="type">
                         <option value="">Tipo de propriedade</option>
                         <option value="Residencial">Residencial</option>
                         <option value="Condominio">Condominio</option>
@@ -17,18 +17,18 @@
                 </div>
                 <div class="input-box">
                     <label for="price">Preço</label>
-                    <input type="number" name="price" id="price" placeholder="Preço">
+                    <input type="number" [(ngModel)]="price" name="price" id="price" placeholder="Preço">
                 </div>
                 <div class="input-box">
                     <label for="location">Localização</label>
-                    <select name="location" id="location">
+                    <select name="location" [(ngModel)]="location" id="location">
                         <option value="">Todas as cidades</option>
                         @for(item of immobiles; track item) {
                             <option value={{item.location}}>{{item.location}}</option>
                         }
                     </select>
                 </div>
-                <button>
+                <button (click)="applyFilter()">
                     <fa-icon [icon]="faSearch"></fa-icon>
                     Pesquisar
                 </button>

@@ -33,7 +33,7 @@
             ],
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/ngx-lightbox/ngx-lightbox.css",
+              
               "src/styles.scss"
             ],
             "scripts": [],

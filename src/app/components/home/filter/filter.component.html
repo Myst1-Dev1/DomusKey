@@ -6,7 +6,7 @@
                 <input type="text" name="search-for" id="search-for" placeholder="O que procurar">
             </div>
             <div class="input-box">
-                <label for="search-for">Tipo</label>
+                <label for="type">Tipo</label>
                 <select name="type" id="type">
                     <option value="">Tipo de propriedade</option>
                     <option value="Residencial">Residencial</option>
@@ -26,7 +26,7 @@
                 </select>
             </div>
         </div>
-        <button>
+        <button (click)="search()">
             <fa-icon [icon]="faSearch"></fa-icon>
             Pesquisar
         </button>
