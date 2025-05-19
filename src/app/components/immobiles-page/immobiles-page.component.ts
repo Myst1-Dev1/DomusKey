@@ -57,7 +57,9 @@ export class ImmobilesPageComponent {
           const matchSearch = this.searchFor ? immobile.title?.toLowerCase().includes(this.searchFor.toLowerCase()) : true;
           const matchType = this.type ? immobile.type === this.type : true;
           const matchPrice = this.price ? immobile.price <= this.price : true;
-          const matchLocation = this.location ? immobile.city?.toLowerCase() === this.location.toLowerCase() : true;
+          const matchLocation = this.location
+          ? immobile.location?.toLowerCase() === this.location.toLowerCase()
+          : true;
 
           return matchSearch && matchType && matchPrice && matchLocation;
         });

@@ -21,8 +21,9 @@
                 <label for="location">Localização</label>
                 <select name="location" id="location">
                     <option value="">Todas as cidades</option>
-                    <option value="São Gonçalo">São Gonçalo</option>
-                    <option value="Niteroi">Niteroi</option>
+                    @for(item of immobiles; track item) {
+                        <option value={{item.location}}>{{item.location}}</option>
+                    }
                 </select>
             </div>
         </div>

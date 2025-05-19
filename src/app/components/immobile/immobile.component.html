@@ -27,8 +27,8 @@
                     <span class="price">R${{immobile?.price || 1500}}</span>
                 </div>
                 <div class="broker-box">
-                    <img ngSrc="/images/user1.webp" width="60" height="60" alt="foto do corretor do imóvel">
-                    <h6>John Doe</h6>
+                    <img [ngSrc]="immobile?.ownerImg || '/images/user1.webp'" width="60" height="60" alt="foto do corretor do imóvel">
+                    <h6>{{immobile?.ownerName || 'John Doe'}}</h6>
                 </div>
             </div>
             <p>{{immobile?.description || 'Loren ipsun is simply dummy about the loren industry Domus key.'}}</p>

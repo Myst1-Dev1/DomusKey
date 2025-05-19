@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Apollo } from 'apollo-angular';
+import { GET_IMMOBILES } from '../../../../graphql/immobiles-query';
 
 @Component({
   selector: 'app-filter',
@@ -12,7 +14,18 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export class FilterComponent {
   faSearch = faSearch;
 
-  constructor(private router: Router) {}
+  immobiles: any[] = [];
+
+  constructor(private router: Router, private apollo: Apollo,) {}
+
+  ngOnInit(): void {
+    this.apollo.watchQuery<any>({
+            query: GET_IMMOBILES,
+          }).valueChanges.subscribe(({ data }) => {
+            const all = data?.immobiles ?? [];
+            this.immobiles = all;
+    });
+  }
 
   search() {
     const filters = {
