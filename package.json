@@ -28,6 +28,7 @@
     "apollo-angular": "^10.0.3",
     "express": "^4.18.2",
     "graphql": "^16.11.0",
+    "gsap": "^3.13.0",
     "leaflet": "^1.9.4",
     "ngx-lightbox": "^3.0.0",
     "rxjs": "~7.8.0",

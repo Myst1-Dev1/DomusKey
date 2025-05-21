@@ -1,5 +1,5 @@
-<section class="filter container">
-    <div class="filter-container">
+<section #filterContainer class="filter container">
+    <div #inputContainer class="filter-container">
         <div class="input-container">
             <div class="input-box">
                 <label for="search-for">Procurando por</label>
@@ -22,12 +22,12 @@
                 <select name="location" id="location">
                     <option value="">Todas as cidades</option>
                     @for(item of immobiles; track item) {
-                        <option value={{item.location}}>{{item.location}}</option>
+                        <option value={{item?.location}}>{{item?.location}}</option>
                     }
                 </select>
             </div>
         </div>
-        <button (click)="search()">
+        <button #buttonRef (click)="search()">
             <fa-icon [icon]="faSearch"></fa-icon>
             Pesquisar
         </button>

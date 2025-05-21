@@ -1,5 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
+import gsap from "gsap";
 
 @Component({
   selector: 'app-video',
@@ -27,5 +28,12 @@ export class VideoComponent implements AfterViewInit {
 
       observer.observe(video);
     }
+
+    gsap.from(this.videoRef.nativeElement, {
+      duration: 0.6,
+      opacity: 0,
+      ease: 'sine',
+      delay: 0.4
+    });
   }
 }

@@ -55,7 +55,7 @@ export class ImmobilesPageComponent {
         // Filtra a lista com base nos filtros preenchidos
         this.immobiles = all.filter((immobile: any) => {
           const matchSearch = this.searchFor ? immobile.title?.toLowerCase().includes(this.searchFor.toLowerCase()) : true;
-          const matchType = this.type ? immobile.type === this.type : true;
+          const matchType = this.type ? immobile.immobileType === this.type : true;
           const matchPrice = this.price ? immobile.price <= this.price : true;
           const matchLocation = this.location
           ? immobile.location?.toLowerCase() === this.location.toLowerCase()

@@ -15,7 +15,7 @@ export const GET_IMMOBILES = gql`
       bedNumbers
       bathNumbers
       propertySize
-      type
+      immobileType
       ownerImg
       ownerName
     }
@@ -37,7 +37,7 @@ export const GET_SINGLE_IMMOBILE = gql`
       bedNumbers
       bathNumbers
       propertySize
-      type
+      immobileType
       ownerImg
       ownerName
     }

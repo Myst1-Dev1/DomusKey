@@ -9,7 +9,7 @@
             <h6>{{ question.title }}</h6>
             <fa-icon (click)="toggleAccordion(i)" [icon]="faChevronDown" class="icon" [ngStyle]="{ transform: activeIndex === i ? 'rotate(180deg)' : 'rotate(0)' }" />
           </div>
-          <p [ngClass]="{ 'acordion-open': activeIndex === i }">{{ question.text }}</p>
+          <p #paragraphRef [ngClass]="{ 'acordion-open': activeIndex === i }">{{ question.text }}</p>
         </div>
       </div>      
 </section>
