@@ -1,11 +1,15 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Apollo } from 'apollo-angular';
 import { GET_IMMOBILES } from '../../../../graphql/immobiles-query';
+
 import gsap from "gsap";
+import { ScrollTrigger }from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-filter',
@@ -19,35 +23,40 @@ export class FilterComponent implements AfterViewInit {
 
   immobiles: any[] = [];
 
-  @ViewChild('filterContainer', { static:true }) filterContainer!: ElementRef;
-  @ViewChild('inputContainer', { static:true }) inputContainer!: ElementRef;
-  @ViewChild('buttonRef', { static:true }) buttonRef!: ElementRef;
+  // @ViewChild('filterContainer', { static:true }) filterContainer!: ElementRef;
+  // @ViewChild('inputContainer', { static:true }) inputContainer!: ElementRef;
+  // @ViewChild('buttonRef', { static:true }) buttonRef!: ElementRef;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router, private apollo: Apollo,) {}
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
 
-        gsap.from(this.filterContainer.nativeElement, {
-          duration: 0.6,
-          opacity: 0,
-          y: -50,
-          ease: 'sine',
-          delay:0.4
-        });
+        ScrollTrigger.create({
+          trigger:'.filter',
+          start:'top 90%',
+          once:true,
+          onEnter: () => {
+            const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.5, stagger: 0.4 } });
 
-        gsap.from(this.inputContainer.nativeElement, {
-          duration:0.6,
-          opacity:0,
-          y:-20,
-          ease: 'sine'
-        });
+            tl.from('.filter', {
+              opacity: 0,
+              y: -50,
+            });
 
-        gsap.from(this.buttonRef.nativeElement, {
-          duration: 0.6,
-          scale: 0,
-          ease: 'sine'
-        });
+            tl.fromTo('.filter-container', {
+              opacity:0,
+              y:-20,
+            }, { opacity:1, y:0 });
+
+            tl.fromTo('.input-box', { opacity:0, x:30 }, { opacity:1, x:0 });
+
+            tl.fromTo('.filter-btn', {
+              opacity: 0,
+              x:30
+            }, { opacity:1, x:0 });
+          }
+        })
     }
   }
 

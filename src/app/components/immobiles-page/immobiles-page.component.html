@@ -1,6 +1,6 @@
 <main>
     <!-- <h2>Procure pelo melhor imóvel na sua região</h2> -->
-    <section class="immobiles container">
+    <section id="immobile-page" class="immobiles container">
         <div>
             <div class="filter">
                 <div class="input-box">
@@ -28,7 +28,7 @@
                         }
                     </select>
                 </div>
-                <button (click)="applyFilter()">
+                <button class="filter-btn" (click)="applyFilter()">
                     <fa-icon [icon]="faSearch"></fa-icon>
                     Pesquisar
                 </button>

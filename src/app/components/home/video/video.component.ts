@@ -1,6 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, PLATFORM_ID, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-video',
@@ -15,25 +18,24 @@ export class VideoComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
+
       const video = this.videoRef.nativeElement;
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            video.play().catch(err => console.warn('Play bloqueado:', err));
-          }
-        },
-        { threshold: 0.5 }
-      );
+      ScrollTrigger.create({
+        trigger: video,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.from(video, {
+            opacity: 0,
+            duration: 0.6,
+            ease: 'sine',
+            delay: 0.4
+          });
 
-      observer.observe(video);
+          video.play().catch(err => console.warn('Play bloqueado:', err));
+        }
+      });
     }
-
-    gsap.from(this.videoRef.nativeElement, {
-      duration: 0.6,
-      opacity: 0,
-      ease: 'sine',
-      delay: 0.4
-    });
   }
 }

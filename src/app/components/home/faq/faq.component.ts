@@ -1,8 +1,12 @@
-import { Component ,ElementRef, ViewChildren, Inject, PLATFORM_ID, QueryList  } from '@angular/core';
+import { Component ,ElementRef, ViewChildren, Inject, PLATFORM_ID, QueryList, AfterViewInit  } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { NgClass, NgFor, NgStyle } from '@angular/common';
-import gsap from "gsap";
+import { isPlatformBrowser, NgClass, NgFor, NgStyle } from '@angular/common';
+
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-faq',
@@ -11,7 +15,7 @@ import gsap from "gsap";
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.scss'
 })
-export class FaqComponent {
+export class FaqComponent implements AfterViewInit {
   faChevronDown = faChevronDown;
 
   questions = [
@@ -72,6 +76,22 @@ export class FaqComponent {
       });
 
       this.activeIndex = index;
+    }
+  }
+
+  ngAfterViewInit() {
+     if (isPlatformBrowser(this.platformId)) {
+      ScrollTrigger.create({
+        trigger:'#faq',
+        start:'top 90%',
+        once:true,
+        onEnter:() => {
+          const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.5, stagger: 0.4 } });
+
+          tl.fromTo('.box-text', { opacity:0, y:-50 }, { opacity:1, y:0 });
+          tl.fromTo('.question-box', { opacity:0, x:-30 }, { opacity:1, x:0 });
+        }
+      });
     }
   }
 }

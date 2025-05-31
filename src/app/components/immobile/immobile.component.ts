@@ -20,6 +20,8 @@ import { GET_SINGLE_IMMOBILE } from '../../../graphql/immobiles-query';
 
 import { Lightbox, LightboxModule, IAlbum } from 'ngx-lightbox';
 
+import gsap from 'gsap';
+
 @Component({
   selector: 'app-immobile',
   imports: [NgOptimizedImage, FontAwesomeModule, LightboxModule, NgFor, NgIf],
@@ -43,43 +45,71 @@ export class ImmobileComponent implements AfterViewInit {
   private isBrowser: boolean;
 
   immobile: any;
+  loading = true;
   mapLoaded = false;
 
-  // Álbum para lightbox
   album: IAlbum[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
     private apollo: Apollo,
-    private lightbox: Lightbox // Injeta o Lightbox
+    private lightbox: Lightbox
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  ngAfterViewInit() {
-    if (!this.isBrowser) return; // só roda no browser
+  animateUI() {
+    const tlImmobile = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
+    const tlImmobileDetails = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
 
-    const id = this.route.snapshot.paramMap.get('id');
+    tlImmobile.fromTo(
+      '.immobile-container .immobile-box .img-container img',
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1 }
+    );
+    tlImmobile.fromTo(
+      '.immobile-container .immobile-box .img-container .other-img-box img',
+      { opacity: 0, scaleX: 0.95 },
+      { opacity: 1, scaleX: 1 }
+    );
+    tlImmobile.fromTo('.immobile-container .immobile-box .immobile-info .box h2', { opacity:0, y:-30 }, { opacity:1, y:0 });
+    tlImmobile.fromTo('.immobile-container .immobile-box .immobile-info .box .location', { opacity:0, y:-30 }, { opacity:1, y:0 });
+    tlImmobile.fromTo('.immobile-container .immobile-box .immobile-info .box .price', { opacity:0, scaleX:0 }, { opacity:1, scaleX:1.1 });
+    tlImmobile.fromTo('.immobile-container .immobile-box .immobile-info .broker-box', { opacity:0, x:-30 }, { opacity:1, x:0 });
+    tlImmobile.fromTo('.immobile-container .immobile-box p', { opacity:0, y:30 }, { opacity:1, y:0 });
 
-    if (id) {
-      this.apollo
-        .watchQuery({
-          query: GET_SINGLE_IMMOBILE,
-          variables: { id },
-        })
-        .valueChanges.subscribe((result: any) => {
-          this.immobile = result?.data?.immobile;
-
-          // Criar álbum só no browser
-          this.createAlbum();
-
-          if (this.immobile?.latitude && this.immobile?.longitude) {
-            this.loadMap(this.immobile.latitude, this.immobile.longitude, this.immobile.title);
-          }
-        });
-    }
   }
+
+  ngAfterViewInit() {
+  if (!this.isBrowser) return;
+
+  const id = this.route.snapshot.paramMap.get('id');
+
+  if (id) {
+    this.apollo
+      .watchQuery({
+        query: GET_SINGLE_IMMOBILE,
+        variables: { id },
+      })
+      .valueChanges.subscribe((result: any) => {
+        this.immobile = result?.data?.immobile;
+
+        this.loading = false;
+
+        this.createAlbum();
+
+        if (this.immobile?.latitude && this.immobile?.longitude) {
+          this.loadMap(this.immobile.latitude, this.immobile.longitude, this.immobile.titlImmobilee);
+        }
+
+        setTimeout(() => {
+          this.animateUI();
+        }, 100);
+      });
+  }
+}
+
 
   createAlbum() {
     this.album = [];
@@ -90,7 +120,7 @@ export class ImmobileComponent implements AfterViewInit {
       this.album.push({
         src: this.immobile.img,
         thumb: this.immobile.img,
-        caption: this.immobile.title || '',
+        caption: this.immobile.titlImmobilee || '',
       });
     }
 
@@ -99,7 +129,7 @@ export class ImmobileComponent implements AfterViewInit {
         this.album.push({
           src: img,
           thumb: img,
-          caption: this.immobile.title || '',
+          caption: this.immobile.titlImmobilee || '',
         });
       }
     }
@@ -119,7 +149,7 @@ export class ImmobileComponent implements AfterViewInit {
     this.lightboxIsOpen = false;
   }
 
-  async loadMap(lat: number, lng: number, title: string) {
+  async loadMap(lat: number, lng: number, titlImmobilee: string) {
     if (!this.isBrowser) return;
 
     const L = await import('leaflet');
@@ -131,7 +161,7 @@ export class ImmobileComponent implements AfterViewInit {
 
     L.marker([lat, lng])
       .addTo(map)
-      .bindPopup(title || 'Imóvel')
+      .bindPopup(titlImmobilee || 'Imóvel')
       .openPopup();
 
     this.mapLoaded = true;
