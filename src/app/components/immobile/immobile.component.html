@@ -1,6 +1,8 @@
 <main>
     @if (loading) {
-        <p>Carregando...</p>
+        <div class="loading-immobile">
+            <p>Carregando...</p>
+        </div>
     } @else { 
         <div class="immobile-container container">
             <div class="immobile-box">
@@ -106,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="map-box">
                     <h3>Localização</h3>
                     <div id="map" style="height: 200px; width: 100%;"></div>
                 </div>

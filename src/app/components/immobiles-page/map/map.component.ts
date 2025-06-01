@@ -1,4 +1,12 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID, OnDestroy, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Inject,
+  PLATFORM_ID,
+  OnDestroy,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -6,73 +14,69 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy, OnChanges {
-  @Input() latitude: number = -23.55052;  // valores padrão
-  @Input() longitude: number = -46.63331;
-  @Input() title: string = 'RJ'
+export class MapComponent implements OnChanges, OnDestroy {
+  @Input() immobiles: { latitude: number, longitude: number, title: string, img:string }[] = [];
 
   private map: any;
   private L: any;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  async ngAfterViewInit() {
+  async ngOnChanges(changes: SimpleChanges) {
     if (isPlatformBrowser(this.platformId)) {
-      const leaflet = await import('leaflet');
-      this.L = leaflet;
+      if (!this.L) {
+        const leaflet = await import('leaflet');
+        this.L = leaflet;
+      }
 
-      setTimeout(() => {
-        this.initMap();
-        this.cdr.detectChanges();
-      }, 0);
+      if (changes['immobiles'] && this.immobiles?.length > 0) {
+        setTimeout(() => this.initMap(), 0);
+      }
     }
   }
 
-  ngOnChanges(changes: SimpleChanges | any) {
-  if (this.map && (changes.latitude || changes.longitude || changes.title)) {
-    this.map.setView([this.latitude, this.longitude], 13);
-
-    // Remove marcadores antigos para evitar acumulo
-    this.map.eachLayer((layer: any) => {
-      if (layer instanceof this.L.Marker) {
-        this.map.removeLayer(layer);
-      }
-    });
-
-    this.L.marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup(`${this.title}`);  // popup só aparece ao clicar no marker
-
-    setTimeout(() => this.map.invalidateSize(), 300);
-  }
-}
-
   private initMap(): void {
+    if (!this.L) return;
+
     if (this.map) {
       this.map.remove();
     }
 
     const mapElement = document.getElementById('map');
     if (!mapElement) {
-      console.warn('map element not found!');
+      console.warn('Elemento do mapa não encontrado!');
       return;
     }
 
-    this.map = this.L.map(mapElement).setView([this.latitude, this.longitude], 13);
+    const first = this.immobiles[0];
+    const center = first ? [first.latitude, first.longitude] : [-23.55052, -46.63331];
+    const zoom = 11;
+
+    this.map = this.L.map(mapElement).setView(center, zoom);
 
     this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    this.L.marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup(`<h2 style="font-weight:bold;font-size:14px;">${this.title}</h2>`)
-      // .openPopup();
+    const bounds = this.L.latLngBounds([]);
 
-    setTimeout(() => {
-      this.map.invalidateSize();
-    }, 300);
+    this.immobiles.forEach((immobile) => {
+      const marker = this.L.marker([immobile.latitude, immobile.longitude])
+        .addTo(this.map)
+        .bindPopup(`
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <img style="width:100%; border-radius:6px; object-fit:cover;" src=${immobile.img} alt="foto do imóvel no mapa"/>
+            <strong>${immobile.title}</strong>
+          </div>`
+        );
+      bounds.extend(marker.getLatLng());
+    });
+
+    if (this.immobiles.length > 1) {
+      this.map.fitBounds(bounds, { padding: [20, 20] });
+    }
+
+    setTimeout(() => this.map.invalidateSize(), 300);
   }
 
   ngOnDestroy() {

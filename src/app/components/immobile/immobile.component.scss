@@ -1,3 +1,11 @@
+.loading-immobile {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .immobile-container {
     display: flex;
     flex-wrap: wrap;
@@ -11,7 +19,6 @@
 
     .img-container {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       gap: 20px;
 
@@ -73,14 +80,16 @@
             border-radius: 10px;
             color: #fff;
             width: 100px;
-            height: 100px;
+            height: 110px;
             display: grid;
             place-content: center;
+            padding: 10px 0;
 
             h6 {
                 margin-top: 10px;
                 font-weight: 500;
                 font-size: 13px;
+                max-width: 20px;
             }
 
             img {
@@ -213,6 +222,7 @@
     .immobile-container {
         .immobile-box{
             .img-container{
+                flex-wrap: wrap;
                 .other-img-box {
                     flex-direction: row;
                     justify-content: space-between;

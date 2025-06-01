@@ -94,6 +94,7 @@ header {
             color: #fff;
             transition:height 0.3s;
             overflow:hidden;
+            z-index: 9999;
 
             a {
                 font-size: 20px;

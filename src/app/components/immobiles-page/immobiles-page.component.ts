@@ -70,6 +70,7 @@ export class ImmobilesPageComponent implements AfterViewInit {
           return matchSearch && matchType && matchPrice && matchLocation;
         });
 
+                console.log(this.immobiles);
         this.error = error;
       });
     });

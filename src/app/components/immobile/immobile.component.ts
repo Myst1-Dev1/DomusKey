@@ -79,6 +79,9 @@ export class ImmobileComponent implements AfterViewInit {
     tlImmobile.fromTo('.immobile-container .immobile-box .immobile-info .broker-box', { opacity:0, x:-30 }, { opacity:1, x:0 });
     tlImmobile.fromTo('.immobile-container .immobile-box p', { opacity:0, y:30 }, { opacity:1, y:0 });
 
+    tlImmobileDetails.fromTo('.immobile-details', { opacity:0, x:30 }, { opacity:1, x:0 });
+    tlImmobileDetails.fromTo('.immobile-details .general', { opacity:0, y:30 }, { opacity:1, y:0 });
+    tlImmobileDetails.fromTo('.immobile-details .map-box', { opacity:0, y:30 }, { opacity:1, y:0 });
   }
 
   ngAfterViewInit() {
