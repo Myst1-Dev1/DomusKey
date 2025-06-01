@@ -96,7 +96,7 @@ export class ImmobileComponent implements AfterViewInit {
         variables: { id },
       })
       .valueChanges.subscribe((result: any) => {
-        this.immobile = result?.data?.immobile;
+        this.immobile = result?.data?.immobile || [];
 
         this.loading = false;
 
