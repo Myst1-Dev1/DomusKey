@@ -60,8 +60,17 @@ export class MapComponent implements OnChanges, OnDestroy {
 
     const bounds = this.L.latLngBounds([]);
 
+    const customIcon = this.L.icon({
+        iconUrl: '/images/marker-icon.png',
+        shadowUrl: '/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+    });
+
     this.immobiles.forEach((immobile) => {
-      const marker = this.L.marker([immobile.latitude, immobile.longitude])
+      const marker = this.L.marker([immobile.latitude, immobile.longitude], { icon: customIcon })
         .addTo(this.map)
         .bindPopup(`
           <div style="display:flex; flex-direction:column; gap:10px;">

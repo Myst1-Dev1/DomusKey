@@ -169,20 +169,31 @@ export class ImmobileComponent implements AfterViewInit {
 }
 
   async loadMap(lat: number, lng: number, title: string) {
-    if (!this.isBrowser) return;
+      if (!this.isBrowser) return;
 
-    const L = await import('leaflet');
-    const map = L.map('map').setView([lat, lng], 15);
+      const leafletModule = await import('leaflet');
+      const L = leafletModule.default;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(map);
+      const map = L.map('map').setView([lat, lng], 15);
 
-    L.marker([lat, lng])
-      .addTo(map)
-      .bindPopup(title || 'Imóvel')
-      .openPopup();
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+      }).addTo(map);
 
-    this.mapLoaded = true;
+      const customIcon = L.icon({
+        iconUrl: '/images/marker-icon.png',
+        shadowUrl: '/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+      });
+
+      L.marker([lat, lng], { icon: customIcon })
+        .addTo(map)
+        .bindPopup(title || 'Imóvel')
+        .openPopup();
+
+      this.mapLoaded = true;
   }
 }
