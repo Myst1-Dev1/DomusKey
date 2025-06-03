@@ -27,9 +27,9 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrl: './immobiles.component.scss'
 })
 export class ImmobilesComponent implements AfterViewInit {
-  @ViewChild('swiperRef', { static: true }) swiperRef!: ElementRef;
-  @ViewChild('prevEl', { static: true }) prevEl!: ElementRef;
-  @ViewChild('nextEl', { static: true }) nextEl!: ElementRef;
+  @ViewChild('swiperRef', { static: false }) swiperRef!: ElementRef;
+  @ViewChild('prevEl', { static: false }) prevEl!: ElementRef;
+  @ViewChild('nextEl', { static: false }) nextEl!: ElementRef;
 
   faMapMarker = faMapMarkerAlt;
   faBed = faBed;
@@ -55,22 +55,16 @@ export class ImmobilesComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      setTimeout(() => {
-        if (this.prevEl?.nativeElement && this.nextEl?.nativeElement) {
-          const swiperEl = this.swiperRef.nativeElement;
+      const swiperEl = this.swiperRef.nativeElement;
 
-          console.log('Arrows existem');
+      // Atribuir manualmente as setas
+      swiperEl.navigation = {
+        prevEl: this.prevEl.nativeElement,
+        nextEl: this.nextEl.nativeElement
+      };
 
-          Object.assign(swiperEl, {
-            navigation: {
-              prevEl: this.prevEl.nativeElement,
-              nextEl: this.nextEl.nativeElement
-            }
-          });
-
-          swiperEl.initialize();
-        }
-      }, 0);
+      // Inicializar o Swiper APÓS as props estarem setadas
+      swiperEl.initialize();
 
       ScrollTrigger.create({
         trigger: '#immobiles',
@@ -80,8 +74,8 @@ export class ImmobilesComponent implements AfterViewInit {
           const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.8, stagger: 0.4 } });
 
           tl.fromTo('.immobileTitle', { opacity: 0, y: 30 }, { opacity: 1, y: 0 });
-          tl.fromTo('.immobiles-box', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1.1 });
-          tl.fromTo('.arrow', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1.1 });
+          tl.fromTo('.immobiles-box', { opacity: 0, x:-30 }, { opacity: 1, x:0 });
+          tl.fromTo('.arrow', { opacity: 0 }, { opacity: 1 });
         }
       });
   }

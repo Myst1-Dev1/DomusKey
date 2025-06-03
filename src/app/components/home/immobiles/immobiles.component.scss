@@ -93,7 +93,7 @@ swiper-container::part(button-next) {
                 height: 40px;
                 position: absolute;
                 top: -8%;
-                left: 50%;
+                left: 45%;
                 transform: translate(-50%, -50%);
                 cursor: pointer;
                 transition: 0.3s;
@@ -149,5 +149,9 @@ swiper-container::part(button-next) {
     .immobiles-box {
         width: 100%;
         max-width: 100%;
+
+        a {
+            left: 50%!important;
+        }
     }
 }
