@@ -5,7 +5,7 @@ export const serverRoutes: ServerRoute[] = [
     path: 'imoveis/:id',
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => {
-      const res = await fetch('https://lab.mystdev.com.br/domusKey', {
+      const res = await fetch('https://domus-key-api.vercel.app/api/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

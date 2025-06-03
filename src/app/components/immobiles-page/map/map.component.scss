@@ -1,5 +1,11 @@
 #map {
     height: 600px; 
-    max-width: 100%; 
+    width: 420px;
     border-radius: 6px;
-}  
+}
+
+@media(max-width:991px) {
+    #map {
+        width: 350px;
+    }
+}

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import gsap from "gsap";
 
 @Component({
   selector: 'app-header',
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, NgOptimizedImage],
   standalone:true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

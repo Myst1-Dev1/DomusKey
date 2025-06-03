@@ -1,4 +1,4 @@
-import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
+import { isPlatformBrowser, NgFor, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 @Component({
   selector: 'app-immobiles-page',
-  imports: [NgOptimizedImage, FormsModule, FontAwesomeModule, MapComponent],
+  imports: [NgOptimizedImage, FormsModule, FontAwesomeModule, MapComponent, NgFor],
   standalone: true,
   templateUrl: './immobiles-page.component.html',
   styleUrl: './immobiles-page.component.scss'
@@ -31,6 +31,7 @@ export class ImmobilesPageComponent implements AfterViewInit {
   immobiles: any[] = [];
   loading = true;
   error: any;
+  uniqueLocation = [...new Set(this.immobiles.map(item => item.location))];
 
   searchFor: string = '';
   type: string = '';
@@ -45,6 +46,28 @@ export class ImmobilesPageComponent implements AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+  //   fetch('https://domus-key-api.vercel.app/api/graphql', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     query: `
+  //       query {
+  //         immobiles {
+  //           id
+  //         }
+  //       }
+  //     `
+  //   })
+  // })
+  // .then(res => res.json())
+  // .then(data => {
+  //   console.log('Dados recebidos diretamente pelo fetch:', data);
+  // })
+  // .catch(err => {
+  //   console.error('Erro no fetch:', err);
+  // });
     this.route.queryParams.subscribe(params => {
       // Preenche os campos com os valores da URL
       this.searchFor = params['search'] || '';
@@ -70,7 +93,6 @@ export class ImmobilesPageComponent implements AfterViewInit {
           return matchSearch && matchType && matchPrice && matchLocation;
         });
 
-                console.log(this.immobiles);
         this.error = error;
       });
     });

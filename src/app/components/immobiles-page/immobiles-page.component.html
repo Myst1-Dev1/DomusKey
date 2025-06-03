@@ -23,9 +23,9 @@
                     <label for="location">Localização</label>
                     <select name="location" [(ngModel)]="location" id="location">
                         <option value="">Todas as cidades</option>
-                        @for(item of immobiles; track item) {
-                            <option value={{item.location}}>{{item.location}}</option>
-                        }
+                        <ng-container *ngFor="let location of uniqueLocations">
+                            <option [value]="location">{{ location }}</option>
+                        </ng-container>
                     </select>
                 </div>
                 <button class="filter-btn" (click)="applyFilter()">

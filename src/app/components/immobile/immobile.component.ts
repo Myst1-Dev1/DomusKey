@@ -1,5 +1,5 @@
 import { NgFor, NgIf, NgOptimizedImage, isPlatformBrowser } from '@angular/common';
-import { Component, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faMapMarkerAlt,
@@ -27,7 +27,7 @@ import gsap from 'gsap';
   imports: [NgOptimizedImage, FontAwesomeModule, LightboxModule, NgFor, NgIf],
   standalone: true,
   templateUrl: './immobile.component.html',
-  styleUrls: ['./immobile.component.scss'], // corrigido: styleUrls (plural)
+  styleUrls: ['./immobile.component.scss'],
 })
 export class ImmobileComponent implements AfterViewInit {
   faMapMarker = faMapMarkerAlt;
@@ -103,7 +103,7 @@ export class ImmobileComponent implements AfterViewInit {
         this.createAlbum();
 
         if (this.immobile?.latitude && this.immobile?.longitude) {
-          this.loadMap(this.immobile.latitude, this.immobile.longitude, this.immobile.titlImmobilee);
+          this.loadMap(this.immobile.latitude, this.immobile.longitude, this.immobile.title);
         }
 
         setTimeout(() => {
@@ -111,19 +111,20 @@ export class ImmobileComponent implements AfterViewInit {
         }, 100);
       });
   }
-}
 
+  document.addEventListener('click', this.handleDocumentClick.bind(this), true);
+}
 
   createAlbum() {
     this.album = [];
 
-    if (!this.isBrowser) return; // evita erro no SSR
+    if (!this.isBrowser) return;
 
     if (this.immobile?.img) {
       this.album.push({
         src: this.immobile.img,
         thumb: this.immobile.img,
-        caption: this.immobile.titlImmobilee || '',
+        caption: this.immobile.title || '',
       });
     }
 
@@ -132,7 +133,7 @@ export class ImmobileComponent implements AfterViewInit {
         this.album.push({
           src: img,
           thumb: img,
-          caption: this.immobile.titlImmobilee || '',
+          caption: this.immobile.title || '',
         });
       }
     }
@@ -152,7 +153,22 @@ export class ImmobileComponent implements AfterViewInit {
     this.lightboxIsOpen = false;
   }
 
-  async loadMap(lat: number, lng: number, titlImmobilee: string) {
+  handleDocumentClick(event: MouseEvent): void {
+  if (!this.lightboxIsOpen) return;
+
+  const target = event.target as HTMLElement;
+
+  if (
+    target.closest('.lb-container') &&
+    !target.closest('.lb-image') &&
+    !target.closest('.lb-nav') &&
+    !target.closest('.lb-dataContainer')
+  ) {
+    this.close();
+  }
+}
+
+  async loadMap(lat: number, lng: number, title: string) {
     if (!this.isBrowser) return;
 
     const L = await import('leaflet');
@@ -164,7 +180,7 @@ export class ImmobileComponent implements AfterViewInit {
 
     L.marker([lat, lng])
       .addTo(map)
-      .bindPopup(titlImmobilee || 'Imóvel')
+      .bindPopup(title || 'Imóvel')
       .openPopup();
 
     this.mapLoaded = true;
