@@ -25,8 +25,8 @@ export class MapComponent implements OnChanges, OnDestroy {
   async ngOnChanges(changes: SimpleChanges) {
     if (isPlatformBrowser(this.platformId)) {
       if (!this.L) {
-        const leaflet = await import('leaflet');
-        this.L = leaflet;
+          const leaflet = await import('leaflet');
+          this.L = leaflet.default;
       }
 
       if (changes['immobiles'] && this.immobiles?.length > 0) {

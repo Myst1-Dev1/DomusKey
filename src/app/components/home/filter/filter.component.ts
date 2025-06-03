@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, NgFor],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })
@@ -22,6 +22,8 @@ export class FilterComponent implements AfterViewInit {
   faSearch = faSearch;
 
   immobiles: any[] = [];
+
+  uniqueLocation: string[] | any = [];
 
   // @ViewChild('filterContainer', { static:true }) filterContainer!: ElementRef;
   // @ViewChild('inputContainer', { static:true }) inputContainer!: ElementRef;
@@ -62,10 +64,12 @@ export class FilterComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.apollo.watchQuery<any>({
-            query: GET_IMMOBILES,
-          }).valueChanges.subscribe(({ data }) => {
-            const all = data?.immobiles ?? [];
-            this.immobiles = all;
+        query: GET_IMMOBILES,
+      }).valueChanges.subscribe(({ data }) => {
+        const all = data?.immobiles ?? [];
+        this.immobiles = all;
+
+        this.uniqueLocation = [...new Set(all.map((item:any) => item.location))];
     });
   }
 

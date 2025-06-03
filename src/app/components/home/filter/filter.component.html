@@ -1,5 +1,5 @@
-<section #filterContainer class="filter container">
-    <div #inputContainer class="filter-container">
+<section class="filter container">
+    <div class="filter-container">
         <div class="input-container">
             <div class="input-box">
                 <label for="search-for">Procurando por</label>
@@ -21,9 +21,7 @@
                 <label for="location">Localização</label>
                 <select name="location" id="location">
                     <option value="">Todas as cidades</option>
-                    @for(item of immobiles; track item) {
-                        <option value={{item?.location}}>{{item?.location}}</option>
-                    }
+                    <option *ngFor="let loc of uniqueLocation" [value]="loc">{{ loc }}</option>
                 </select>
             </div>
         </div>
