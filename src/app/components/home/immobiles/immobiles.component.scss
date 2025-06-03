@@ -1,11 +1,11 @@
+swiper-container::part(button-prev),
+swiper-container::part(button-next) {
+  display: none !important;
+}
+
 .immobiles-section {
     h2 {
         text-align: center;
-    }
-
-    swiper-slide {
-        display: flex;
-        justify-content: center;
     }
 
     .immobiles-container {
@@ -133,6 +133,30 @@
                 background-color: #222222;
                 color: #fff;
             }
+        }
+    }
+}
+
+@media(max-width:450px) {
+     swiper-container {
+        width: 100%!important;
+        display: block;
+    }
+
+    swiper-slide {
+        width: 100%!important;
+        box-sizing: border-box;
+    }
+
+    .immobiles-box {
+        width: 100%;
+        max-width: 100%;
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
         }
     }
 }

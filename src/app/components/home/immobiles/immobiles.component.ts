@@ -45,32 +45,38 @@ export class ImmobilesComponent implements AfterViewInit {
   constructor(private apollo: Apollo) {}
 
   ngOnInit(): void {
-    this.apollo.watchQuery<any>({
-      query: GET_IMMOBILES,
-    }).valueChanges.subscribe(({ data, loading, error }) => {
-      this.loading = loading;
-      this.immobiles = data?.immobiles ?? [];
-      this.error = error;
-    });
-  }
+      this.apollo.watchQuery<any>({
+        query: GET_IMMOBILES,
+      }).valueChanges.subscribe(({ data, loading, error }) => {
+        this.loading = loading;
+        this.immobiles = data?.immobiles ?? [];
+        this.error = error;
+      });
+    }
 
-  ngAfterViewInit(): void {
-    const swiperEl = this.swiperRef.nativeElement;
+    ngAfterViewInit(): void {
+      const swiperEl = this.swiperRef.nativeElement;
 
-    swiperEl.setAttribute('navigation-prev-el', `.${this.prevEl.nativeElement.classList[1]}`);
-    swiperEl.setAttribute('navigation-next-el', `.${this.nextEl.nativeElement.classList[1]}`);
+      Object.assign(swiperEl, {
+        navigation: {
+          prevEl: this.prevEl.nativeElement,
+          nextEl: this.nextEl.nativeElement
+        }
+      });
 
-    ScrollTrigger.create({
-      trigger:'#immobiles',
-      start: 'top 90%',
-      once: true,
-      onEnter:() => {
-        const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.8, stagger: 0.4 } });
+      swiperEl.initialize();
 
-        tl.fromTo('.immobileTitle', { opacity: 0, y: 30 }, { opacity: 1, y: 0 });
-        tl.fromTo('.immobiles-box', { opacity:0, scale:0 }, { opacity:1, scale:1.1 });
-        tl.fromTo('.arrow', { opacity:0, scale:0 }, { opacity:1, scale:1.1 });
-      }
-    })
+      ScrollTrigger.create({
+        trigger: '#immobiles',
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.8, stagger: 0.4 } });
+
+          tl.fromTo('.immobileTitle', { opacity: 0, y: 30 }, { opacity: 1, y: 0 });
+          tl.fromTo('.immobiles-box', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1.1 });
+          tl.fromTo('.arrow', { opacity: 0, scale: 0 }, { opacity: 1, scale: 1.1 });
+        }
+      });
   }
 }
