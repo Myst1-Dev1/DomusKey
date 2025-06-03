@@ -55,16 +55,22 @@ export class ImmobilesComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      const swiperEl = this.swiperRef.nativeElement;
+      setTimeout(() => {
+        if (this.prevEl?.nativeElement && this.nextEl?.nativeElement) {
+          const swiperEl = this.swiperRef.nativeElement;
 
-      Object.assign(swiperEl, {
-        navigation: {
-          prevEl: this.prevEl.nativeElement,
-          nextEl: this.nextEl.nativeElement
+          console.log('Arrows existem');
+
+          Object.assign(swiperEl, {
+            navigation: {
+              prevEl: this.prevEl.nativeElement,
+              nextEl: this.nextEl.nativeElement
+            }
+          });
+
+          swiperEl.initialize();
         }
-      });
-
-      swiperEl.initialize();
+      }, 0);
 
       ScrollTrigger.create({
         trigger: '#immobiles',
