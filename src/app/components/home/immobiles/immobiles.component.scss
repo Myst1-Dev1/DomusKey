@@ -37,6 +37,7 @@ swiper-container::part(button-next) {
             img {
                 border-radius: 8px;
                 transition: 0.3s;
+                margin: auto;
             }
 
             .icon {
@@ -48,6 +49,7 @@ swiper-container::part(button-next) {
                 justify-content: space-between;
                 width: 100%;
                 max-width: 350px;
+                margin: auto;
 
                 h6 {
                     font-size: 16px;
@@ -68,7 +70,10 @@ swiper-container::part(button-next) {
 
             .icons-box {
                 display: flex;
-                gap:20px;
+                justify-content: space-between;
+                margin: auto;
+                width: 100%;
+                max-width: 350px;
 
                 .box {
                     display: flex;

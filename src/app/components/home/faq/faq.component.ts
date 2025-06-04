@@ -46,8 +46,8 @@ export class FaqComponent implements AfterViewInit {
       const prevEl = elements[this.activeIndex].nativeElement;
       gsap.to(prevEl, {
         height: 0,
-        duration: 0.4,
-        ease: 'sine'
+        duration: 0.8,
+        ease: 'power2.out'
       });
     }
 
@@ -55,8 +55,8 @@ export class FaqComponent implements AfterViewInit {
       const el = elements[index].nativeElement;
       gsap.to(el, {
         height: 0,
-        duration: 0.4,
-        ease: 'sine'
+        duration: 0.8,
+        ease: 'power2.out'
       });
       this.activeIndex = null;
     } else {
@@ -68,8 +68,8 @@ export class FaqComponent implements AfterViewInit {
 
       gsap.to(el, {
         height: fullHeight,
-        duration: 0.4,
-        ease: 'sine',
+        duration: 0.8,
+        ease: 'power2.out',
         onComplete: () => {
           el.style.height = 'auto';
         }
@@ -86,7 +86,7 @@ export class FaqComponent implements AfterViewInit {
         start:'top 90%',
         once:true,
         onEnter:() => {
-          const tl = gsap.timeline({ defaults: { ease: 'sine', duration: 0.5, stagger: 0.4 } });
+          const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.5, stagger: 0.4 } });
 
           tl.fromTo('.box-text', { opacity:0, y:-50 }, { opacity:1, y:0 });
           tl.fromTo('.question-box', { opacity:0, x:-30 }, { opacity:1, x:0 });
