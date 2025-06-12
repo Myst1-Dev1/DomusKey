@@ -10,6 +10,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 100px;
+    z-index: 10;
 
     .filter {
         display: flex;
